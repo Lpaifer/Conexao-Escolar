@@ -1,0 +1,39 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import "../../styles/global.css";
+---
+
+<Layout title="Jogos | CONEXÃO ESCOLAR">
+  <Header />
+
+  <section class="pt-24 container mx-auto px-4 text-center">
+    <h1 class="text-3xl font-bold mb-6">Escolha um Jogo</h1>
+    <p class="mb-8 text-gray-700 dark:text-gray-300">"Explore e divirta-se com nossos jogos educativos, desenvolvidos para estimular o raciocínio lógico, a memória e a criatividade. Aprender brincando fortalece o conhecimento, melhora habilidades cognitivas e torna o processo de educação mais leve, prazeroso e eficaz!"
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+      <a href="/jogos/forca" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center transition hover:shadow-2xl">
+        <img src="forca.jpg" alt="Jogo da Forca" class="h-32 w-32 object-contain mb-4">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Forca</h2>
+        <p class="text-gray-600 dark:text-gray-400">Adivinhe a palavra antes de errar todas as tentativas!</p>
+      </a>
+
+      <a href="/jogos/caca-palavras" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center transition hover:shadow-2xl">
+        <img src="caca palavras.png" alt="Caça-Palavras" class="h-32 w-32 object-contain mb-4">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Caça-Palavras</h2>
+        <p class="text-gray-600 dark:text-gray-400">Encontre todas as palavras escondidas no quadro!</p>
+      </a>
+
+      <a href="/jogos/palavras-cruzadas" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center transition hover:shadow-2xl">
+        <img src="palavra-cruzada.jpg" alt="Palavras Cruzadas" class="h-32 w-32 object-contain mb-4">
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Palavras Cruzadas</h2>
+        <p class="text-gray-600 dark:text-gray-400">Complete as palavras corretas baseando-se nas dicas!</p>
+      </a>
+
+    </div>
+
+    <p class="mb-8 text-gray-700 dark:text-gray-300 mt-10">Divirta-se com nossos jogos educativos!</p>
+  </section>
+</Layout>

@@ -1,0 +1,75 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import "../../styles/global.css";
+---
+
+<Layout title="Forca | CONEXÃO ESCOLAR">
+  <Header />
+
+  <section class="pt-24 container mx-auto px-4 text-center">
+    <h1 class="text-3xl font-bold mb-6">Jogo da Forca</h1>
+    <p class="mb-6 text-gray-700 dark:text-gray-300">Tente adivinhar a palavra antes de esgotar suas tentativas!</p>
+
+    <div id="forca-container" class="space-y-6">
+      <div id="palavra" class="text-2xl font-mono tracking-widest"></div>
+      <div id="tentativas" class="text-lg"></div>
+      <input id="letra-input" type="text" maxlength="1" class="border px-4 py-2 rounded focus:outline-none focus:ring" placeholder="Digite uma letra" />
+      <button id="tentar-btn" class="mt-4 px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">Tentar</button>
+      <div id="mensagem" class="mt-6 text-xl font-bold"></div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const palavras = ["ESCOLA", "EDUCACAO", "APRENDIZADO", "CONHECIMENTO", "PROFESSOR"];
+      let palavra = palavras[Math.floor(Math.random() * palavras.length)];
+      let palavraExibida = Array(palavra.length).fill("_");
+      let tentativasRestantes = 6;
+
+      const palavraDiv = document.getElementById('palavra');
+      const tentativasDiv = document.getElementById('tentativas');
+      const letraInput = document.getElementById('letra-input');
+      const tentarBtn = document.getElementById('tentar-btn');
+      const mensagemDiv = document.getElementById('mensagem');
+
+      function atualizarTela() {
+        palavraDiv.textContent = palavraExibida.join(" ");
+        tentativasDiv.textContent = `Tentativas restantes: ${tentativasRestantes}`;
+      }
+
+      tentarBtn.addEventListener('click', () => {
+        const letra = letraInput.value.toUpperCase();
+        letraInput.value = '';
+        if (!letra.match(/[A-Z]/)) {
+          alert("Digite apenas letras!");
+          return;
+        }
+
+        let letraEncontrada = false;
+        for (let i = 0; i < palavra.length; i++) {
+          if (palavra[i] === letra) {
+            palavraExibida[i] = letra;
+            letraEncontrada = true;
+          }
+        }
+
+        if (!letraEncontrada) {
+          tentativasRestantes--;
+        }
+
+        atualizarTela();
+
+        if (!palavraExibida.includes("_")) {
+          mensagemDiv.textContent = "🎉 Você venceu!";
+          tentarBtn.disabled = true;
+        } else if (tentativasRestantes === 0) {
+          mensagemDiv.textContent = `😢 Você perdeu! A palavra era: ${palavra}`;
+          tentarBtn.disabled = true;
+        }
+      });
+
+      atualizarTela();
+    });
+  </script>
+</Layout>

@@ -1,0 +1,75 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import "../../styles/global.css";
+---
+
+<Layout title="Palavras Cruzadas | CONEXÃO ESCOLAR">
+  <Header />
+
+  <section class="pt-24 container mx-auto px-4 text-center">
+    <h1 class="text-3xl font-bold mb-6">Jogo de Palavras Cruzadas</h1>
+    <p class="mb-6 text-gray-700 dark:text-gray-300">Complete as palavras baseando-se nas dicas!</p>
+
+    <div id="cruzadas-container" class="grid grid-cols-5 gap-2 justify-center text-lg font-mono mb-8"></div>
+
+    <div id="dicas-container" class="text-left max-w-md mx-auto space-y-4">
+      <h2 class="text-xl font-semibold mb-2">Dicas:</h2>
+      <ul class="list-disc list-inside text-gray-700 dark:text-gray-300">
+        <li><b>1.</b> Lugar onde estudamos. (6 letras)</li>
+        <li><b>2.</b> Pessoa que ensina. (9 letras)</li>
+        <li><b>3.</b> Ato de adquirir conhecimento. (9 letras)</li>
+      </ul>
+    </div>
+
+    <button id="verificar-btn" class="mt-8 px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">Verificar Respostas</button>
+    <div id="mensagem" class="mt-6 text-xl font-bold"></div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const respostas = [
+        "ESCOLA", // horizontal linha 0
+        "PROFESSOR", // vertical coluna 0
+        "APRENDER" // horizontal linha 2
+      ];
+
+      const cruzadasContainer = document.getElementById('cruzadas-container');
+
+      // Criar grid de inputs
+      for (let i = 0; i < 5 * 5; i++) {
+        const input = document.createElement('input');
+        input.maxLength = 1;
+        input.className = 'w-10 h-10 text-center border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100';
+        cruzadasContainer.appendChild(input);
+      }
+
+      document.getElementById('verificar-btn').addEventListener('click', () => {
+        const inputs = cruzadasContainer.querySelectorAll('input');
+        let acertou = true;
+
+        // Verificar linha 0 (ESCOLA)
+        const palavra1 = Array.from({ length: 6 }, (_, i) => inputs[i].value.toUpperCase()).join('');
+        if (palavra1 !== respostas[0]) acertou = false;
+
+        // Verificar coluna 0 (PROFESSOR)
+        const palavra2 = Array.from({ length: 9 }, (_, i) => {
+          const row = i;
+          return inputs[row * 5 + 0]?.value.toUpperCase() || '';
+        }).join('');
+        if (palavra2 !== respostas[1]) acertou = false;
+
+        // Verificar linha 2 (APRENDER)
+        const palavra3 = Array.from({ length: 8 }, (_, i) => inputs[2 * 5 + i].value.toUpperCase()).join('');
+        if (palavra3 !== respostas[2]) acertou = false;
+
+        const mensagem = document.getElementById('mensagem');
+        if (acertou) {
+          mensagem.textContent = "🎉 Parabéns! Você completou corretamente!";
+        } else {
+          mensagem.textContent = "😢 Algumas palavras estão erradas. Tente novamente!";
+        }
+      });
+    });
+  </script>
+</Layout>

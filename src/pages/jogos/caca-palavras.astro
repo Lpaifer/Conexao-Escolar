@@ -1,0 +1,72 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import "../../styles/global.css";
+---
+
+<Layout title="Caça-Palavras | CONEXÃO ESCOLAR">
+  <Header />
+
+  <section class="pt-24 container mx-auto px-4 text-center">
+    <h1 class="text-3xl font-bold mb-6">Jogo de Caça-Palavras</h1>
+    <p class="mb-6 text-gray-700 dark:text-gray-300">Encontre todas as palavras escondidas na grade!</p>
+
+    <div id="caca-container" class="grid grid-cols-10 gap-0 p-0 justify-center"></div>
+
+    <div id="palavras-container" class="mt-8 space-y-2">
+      <h2 class="text-xl font-semibold mb-4">Palavras para encontrar:</h2>
+      <ul id="lista-palavras" class="text-gray-700 dark:text-gray-300"></ul>
+    </div>
+
+    <div id="mensagem" class="mt-6 text-xl font-bold"></div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const palavras = ["ESCOLA", "APRENDER", "LIVRO", "AULA", "PROFESSOR"];
+      const gridTamanho = 10;
+      const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+      const cacaContainer = document.getElementById('caca-container');
+      const listaPalavras = document.getElementById('lista-palavras');
+      const mensagemDiv = document.getElementById('mensagem');
+
+      const grid = Array.from({ length: gridTamanho }, () => Array(gridTamanho).fill(""));
+
+      function colocarPalavra(palavra) {
+        const direcaoHorizontal = Math.random() > 0.5;
+        const linha = Math.floor(Math.random() * gridTamanho);
+        const coluna = Math.floor(Math.random() * (gridTamanho - palavra.length));
+
+        for (let i = 0; i < palavra.length; i++) {
+          if (direcaoHorizontal) {
+            grid[linha][coluna + i] = palavra[i];
+          } else {
+            if (linha + palavra.length >= gridTamanho) return colocarPalavra(palavra);
+            grid[linha + i][coluna] = palavra[i];
+          }
+        }
+      }
+
+      palavras.forEach(palavra => colocarPalavra(palavra));
+
+      for (let i = 0; i < gridTamanho; i++) {
+        for (let j = 0; j < gridTamanho; j++) {
+          if (!grid[i][j]) {
+            grid[i][j] = letras[Math.floor(Math.random() * letras.length)];
+          }
+          const cell = document.createElement('div');
+          cell.textContent = grid[i][j];
+          cell.className = 'w-10 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 m-0 p-0';
+          cacaContainer.appendChild(cell);
+        }
+      }
+
+      palavras.forEach(palavra => {
+        const item = document.createElement('li');
+        item.textContent = palavra;
+        listaPalavras.appendChild(item);
+      });
+    });
+  </script>
+</Layout>
