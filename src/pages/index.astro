@@ -128,38 +128,38 @@ import "../styles/global.css";
 
   <!-- Script para carregar as notícias -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      async function loadNews() {
-        const apiKey = 'cb0db01ab7de4c33936906c7bd24fcf7'; // Substitua com sua chave da NewsAPI
-        const url = `https://newsapi.org/v2/everything?q=celulares+escolas&apiKey=${apiKey}`;
+document.addEventListener('DOMContentLoaded', () => {
+  async function loadNews() {
+    const url = '/api/news'; 
 
-        try {
-          const response = await fetch(url);
-          const data = await response.json();
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
 
-          if (data.status === 'ok') {
-            const newsContainer = document.getElementById('news-container');
-            if (newsContainer) {
-              data.articles.forEach((article) => {
-                const articleElement = document.createElement('div');
-                articleElement.className = 'bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col transition hover:shadow-2xl';
-                articleElement.innerHTML = `
-                  <img src="${article.urlToImage || 'https://via.placeholder.com/400x250'}" alt="${article.title}" class="w-full h-48 object-cover">
-                  <div class="p-6 flex flex-col flex-grow">
-                    <h5 class="text-xl font-bold text-blue-800 dark:text-white mb-2">${article.title}</h5>
-                    <p class="text-gray-700 dark:text-gray-300 flex-grow">${article.description || ''}</p>
-                    <a href="${article.url}" target="_blank" class="mt-4 inline-block bg-blue-800 text-white px-6 py-2 rounded-full text-center hover:bg-blue-700 transition">Leia mais</a>
-                  </div>`;
-                newsContainer.appendChild(articleElement);
-              });
-            }
-          }
-        } catch (error) {
-          console.error('Erro ao carregar notícias:', error);
+      if (data.status === 'ok') {
+        const newsContainer = document.getElementById('news-container');
+        if (newsContainer) {
+          data.articles.forEach((article) => {
+            const articleElement = document.createElement('div');
+            articleElement.className = 'bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col transition hover:shadow-2xl';
+            articleElement.innerHTML = `
+              <img src="${article.urlToImage || 'https://via.placeholder.com/400x250'}" alt="${article.title}" class="w-full h-48 object-cover">
+              <div class="p-6 flex flex-col flex-grow">
+                <h5 class="text-xl font-bold text-blue-800 dark:text-white mb-2">${article.title}</h5>
+                <p class="text-gray-700 dark:text-gray-300 flex-grow">${article.description || ''}</p>
+                <a href="${article.url}" target="_blank" class="mt-4 inline-block bg-blue-800 text-white px-6 py-2 rounded-full text-center hover:bg-blue-700 transition">Leia mais</a>
+              </div>`;
+            newsContainer.appendChild(articleElement);
+          });
         }
       }
+    } catch (error) {
+      console.error('Erro ao carregar notícias:', error);
+    }
+  }
 
-      loadNews();
-    });
+  loadNews();
+});
+
     </script>
 </Layout>

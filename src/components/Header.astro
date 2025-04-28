@@ -4,13 +4,28 @@ import '../styles/global.css'
 ---
 
 <script>
-    document.getElementById("navMenuToggler")?.addEventListener("click", function () {
-        const navMenu = document.getElementById("navMenu")
-        navMenu?.classList.toggle("h-0")
-        navMenu?.classList.toggle("h-full")
-        navMenu?.classList.toggle("opacity-0")
-        navMenu?.classList.toggle("opacity-100")   
-    })
+document.addEventListener('DOMContentLoaded', () => {
+  const toggler = document.getElementById('navMenuToggler');
+  const navMenu = document.getElementById('navMenu');
+  const menuIcon = document.getElementById('menuIcon');
+  
+  toggler.addEventListener('click', () => {
+    navMenu.classList.toggle('h-0');
+    navMenu.classList.toggle('h-full');
+    navMenu.classList.toggle('opacity-0');
+    navMenu.classList.toggle('opacity-100');
+    navMenu.classList.toggle('pointer-events-none');
+    navMenu.classList.toggle('pointer-events-auto');
+
+    if (menuIcon.textContent === '☰') {
+      menuIcon.textContent = '✖'; // Ícone de fechar
+    } else {
+      menuIcon.textContent = '☰'; // Ícone de abrir
+    }
+
+  });
+});
+
 </script>
 
 <script>
@@ -28,17 +43,14 @@ import '../styles/global.css'
         <span class="text-3xl font-bold">Conexão Escolar</span>
     </a>
 
-    <button
-        id="navMenuToggler"
-        class="fixed top-0 right-0 p-4 z-20 lg:hidden"
-    >
-        Menu
-    </button>
+    <button id="navMenuToggler" class="fixed top-0 right-0 p-4 z-20 lg:hidden">
+        <span id="menuIcon">☰</span> <!-- Ícone padrão Menu (três risquinhos) -->
+      </button>
+
     <div
         id="navMenu"
-    class="fixed lg:relative top-0 left-0 bg-white dark:bg-black text-gray-900 dark:text-gray-100 transition-all duration-500 flex flex-col lg:flex-row gap-8 items-center justify-center w-full h-0 opacity-0 pointer-events-none z-10 lg:h-full lg:opacity-100 lg:pointer-events-auto"
-  >
-  
+        class="fixed lg:relative top-0 left-0 bg-white dark:bg-black text-gray-900 dark:text-gray-100 transition-all duration-500 flex flex-col lg:flex-row gap-8 items-center justify-center w-full h-0 opacity-0 pointer-events-none z-10 lg:h-full lg:opacity-100 lg:pointer-events-auto"
+    >
         <nav class="lg:flex-1 flex gap-8 flex-col lg:flex-row">
             <a href="#" onclick="scrollToTop()">Home</a>
             <a href="/blog">Blog</a>
