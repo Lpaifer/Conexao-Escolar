@@ -11,62 +11,232 @@ import "../../styles/global.css";
     <h1 class="text-3xl font-bold mb-6">Jogo de Caça-Palavras</h1>
     <p class="mb-6 text-gray-700 dark:text-gray-300">Encontre todas as palavras escondidas na grade!</p>
 
-    <div id="caca-container" class="grid grid-cols-10 gap-0 p-0 justify-center"></div>
+    <div class="mb-4 flex justify-center space-x-6">
+      <span id="cronometro" class="text-lg font-semibold text-blue-600 dark:text-blue-400">Tempo: 0s</span>
+      <span id="contador" class="text-lg font-semibold text-green-600 dark:text-green-400">Encontradas: 0</span>
+      <button id="reiniciar" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition">Reiniciar</button>
+    </div>
+
+    <div id="caca-container" class="space-y-1"></div>
 
     <div id="palavras-container" class="mt-8 space-y-2">
       <h2 class="text-xl font-semibold mb-4">Palavras para encontrar:</h2>
       <ul id="lista-palavras" class="text-gray-700 dark:text-gray-300"></ul>
     </div>
 
-    <div id="mensagem" class="mt-6 text-xl font-bold"></div>
-  </section>
+    <div id="mensagem" class="mt-6 text-2xl font-bold"></div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const palavras = ["ESCOLA", "APRENDER", "LIVRO", "AULA", "PROFESSOR"];
-      const gridTamanho = 10;
-      const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    <div style="display: none;">
+      <audio id="somClique" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5f57cc15c8.mp3?filename=select-4-20569.mp3"></audio>
+      <audio id="somAcerto" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_445476e7b3.mp3?filename=correct-2-46134.mp3"></audio>
+    </div>
 
-      const cacaContainer = document.getElementById('caca-container');
-      const listaPalavras = document.getElementById('lista-palavras');
-      const mensagemDiv = document.getElementById('mensagem');
+    <script type="module">
+      document.addEventListener('DOMContentLoaded', () => {
+        const palavras = ["ESCOLA", "APRENDER", "LIVRO", "AULA", "PROFESSOR"];
+        const gridTamanho = 10;
+        const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-      const grid = Array.from({ length: gridTamanho }, () => Array(gridTamanho).fill(""));
+        const cacaContainer = document.getElementById('caca-container');
+        const listaPalavras = document.getElementById('lista-palavras');
+        const mensagemDiv = document.getElementById('mensagem');
+        const cronometro = document.getElementById('cronometro');
+        const contador = document.getElementById('contador');
+        const btnReiniciar = document.getElementById('reiniciar');
+        const somClique = document.getElementById('somClique');
+        const somAcerto = document.getElementById('somAcerto');
 
-      function colocarPalavra(palavra) {
-        const direcaoHorizontal = Math.random() > 0.5;
-        const linha = Math.floor(Math.random() * gridTamanho);
-        const coluna = Math.floor(Math.random() * (gridTamanho - palavra.length));
+        let tempo = 0;
+        let timer;
+        let selecionadas = [];
+        let encontrados = new Set();
+        let mouseDown = false;
 
-        for (let i = 0; i < palavra.length; i++) {
-          if (direcaoHorizontal) {
-            grid[linha][coluna + i] = palavra[i];
+        function iniciarJogo() {
+          tempo = 0;
+          selecionadas = [];
+          encontrados = new Set();
+          cronometro.textContent = "Tempo: 0s";
+          contador.textContent = "Encontradas: 0";
+          mensagemDiv.textContent = "";
+          cacaContainer.innerHTML = "";
+          listaPalavras.innerHTML = "";
+
+          clearInterval(timer);
+          timer = setInterval(() => {
+            tempo++;
+            cronometro.textContent = `Tempo: ${tempo}s`;
+          }, 1000);
+
+          const grid = Array.from({ length: gridTamanho }, () => Array(gridTamanho).fill(""));
+
+          function colocarPalavra(palavra) {
+            let colocado = false;
+            while (!colocado) {
+              const direcaoHorizontal = Math.random() > 0.5;
+              const linha = Math.floor(Math.random() * (direcaoHorizontal ? gridTamanho : gridTamanho - palavra.length));
+              const coluna = Math.floor(Math.random() * (direcaoHorizontal ? gridTamanho - palavra.length : gridTamanho));
+
+              let podeColocar = true;
+              for (let i = 0; i < palavra.length; i++) {
+                const l = direcaoHorizontal ? linha : linha + i;
+                const c = direcaoHorizontal ? coluna + i : coluna;
+                if (grid[l][c] !== "") {
+                  podeColocar = false;
+                  break;
+                }
+              }
+
+              if (podeColocar) {
+                for (let i = 0; i < palavra.length; i++) {
+                  const l = direcaoHorizontal ? linha : linha + i;
+                  const c = direcaoHorizontal ? coluna + i : coluna;
+                  grid[l][c] = palavra[i];
+                }
+                colocado = true;
+              }
+            }
+          }
+
+          palavras.forEach(palavra => colocarPalavra(palavra));
+
+          // Eventos
+          document.addEventListener('mousedown', (e) => {
+            if (e.target.dataset.linha !== undefined) {
+              mouseDown = true;
+              selecionarLetra(e.target, e.target.dataset.linha, e.target.dataset.coluna);
+            }
+          });
+          document.addEventListener('mouseup', () => {
+            if (mouseDown) {
+              mouseDown = false;
+              verificarPalavra();
+            }
+          });
+          document.addEventListener('mousemove', (e) => {
+            if (!mouseDown) return;
+            const target = e.target;
+            if (target && target.dataset && target.dataset.linha !== undefined) {
+              selecionarLetra(target, target.dataset.linha, target.dataset.coluna);
+            }
+          });
+
+          document.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            const target = document.elementFromPoint(touch.clientX, touch.clientY);
+            if (target && target.dataset && target.dataset.linha !== undefined) {
+              mouseDown = true;
+              selecionarLetra(target, target.dataset.linha, target.dataset.coluna);
+            }
+          });
+          document.addEventListener('touchend', () => {
+            if (mouseDown) {
+              mouseDown = false;
+              verificarPalavra();
+            }
+          });
+          document.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            const target = document.elementFromPoint(touch.clientX, touch.clientY);
+            if (mouseDown && target && target.dataset && target.dataset.linha !== undefined) {
+              selecionarLetra(target, target.dataset.linha, target.dataset.coluna);
+            }
+          });
+
+          for (let i = 0; i < gridTamanho; i++) {
+            const linhaDiv = document.createElement('div');
+            linhaDiv.className = 'flex justify-center';
+            for (let j = 0; j < gridTamanho; j++) {
+              if (!grid[i][j]) {
+                grid[i][j] = letras[Math.floor(Math.random() * letras.length)];
+              }
+              const cell = document.createElement('div');
+              cell.textContent = grid[i][j];
+              cell.className = 'w-10 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 hover:bg-blue-200 cursor-pointer transition-all transform hover:scale-110';
+              cell.dataset.linha = i;
+              cell.dataset.coluna = j;
+              linhaDiv.appendChild(cell);
+            }
+            cacaContainer.appendChild(linhaDiv);
+          }
+
+          palavras.forEach(palavra => {
+            const item = document.createElement('li');
+            item.textContent = palavra;
+            listaPalavras.appendChild(item);
+          });
+        }
+
+        function selecionarLetra(cell, linha, coluna) {
+          linha = Number(linha);
+          coluna = Number(coluna);
+          if (cell.classList.contains('bg-green-400')) return;
+          if (selecionadas.some(s => s.linha === linha && s.coluna === coluna)) return;
+          cell.classList.add('bg-blue-400');
+          selecionadas.push({ letra: cell.textContent, linha, coluna });
+          somClique.currentTime = 0;
+          somClique.play();
+        }
+
+        function verificarPalavra() {
+          const palavraFormada = selecionadas.map(s => s.letra).join('');
+          const palavraPossivel = palavras.find(palavra => palavra.startsWith(palavraFormada));
+
+          if (palavraPossivel) {
+            if (palavraFormada === palavraPossivel && !encontrados.has(palavraFormada)) {
+              encontrados.add(palavraFormada);
+              atualizarLista(palavraFormada);
+
+              selecionadas.forEach(({ linha, coluna }) => {
+                const linhaDiv = cacaContainer.children[linha];
+                const cell = linhaDiv.children[coluna];
+                if (cell) {
+                  cell.classList.remove('bg-blue-400');
+                  cell.classList.add('bg-green-400');
+                }
+              });
+
+              somAcerto.currentTime = 0;
+              somAcerto.play();
+              selecionadas = [];
+              contador.textContent = `Encontradas: ${encontrados.size}`;
+
+              if (encontrados.size === palavras.length) {
+                clearInterval(timer);
+                mensagemDiv.innerHTML = `<span class="text-green-500 animate-bounce">🏆 Parabéns! Você encontrou todas as palavras em ${tempo}s! 🏆</span>`;
+              }
+            } else {
+              limparSelecao();
+            }
           } else {
-            if (linha + palavra.length >= gridTamanho) return colocarPalavra(palavra);
-            grid[linha + i][coluna] = palavra[i];
+            limparSelecao();
           }
         }
-      }
 
-      palavras.forEach(palavra => colocarPalavra(palavra));
-
-      for (let i = 0; i < gridTamanho; i++) {
-        for (let j = 0; j < gridTamanho; j++) {
-          if (!grid[i][j]) {
-            grid[i][j] = letras[Math.floor(Math.random() * letras.length)];
-          }
-          const cell = document.createElement('div');
-          cell.textContent = grid[i][j];
-          cell.className = 'w-10 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 m-0 p-0';
-          cacaContainer.appendChild(cell);
+        function atualizarLista(palavra) {
+          const itens = listaPalavras.querySelectorAll('li');
+          itens.forEach(item => {
+            if (item.textContent === palavra) {
+              item.style.textDecoration = "line-through";
+              item.style.color = "gray";
+            }
+          });
         }
-      }
 
-      palavras.forEach(palavra => {
-        const item = document.createElement('li');
-        item.textContent = palavra;
-        listaPalavras.appendChild(item);
+        function limparSelecao() {
+          selecionadas.forEach(({ linha, coluna }) => {
+            const linhaDiv = cacaContainer.children[linha];
+            const cell = linhaDiv.children[coluna];
+            if (cell && !cell.classList.contains('bg-green-400')) {
+              cell.classList.remove('bg-blue-400');
+            }
+          });
+          selecionadas = [];
+        }
+
+        btnReiniciar.addEventListener('click', iniciarJogo);
+        iniciarJogo();
       });
-    });
-  </script>
+    </script>
+  </section>
 </Layout>
