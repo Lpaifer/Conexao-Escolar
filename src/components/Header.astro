@@ -1,6 +1,6 @@
 ---
 import Button from "./Button.astro";
-import '../styles/global.css';
+import "../styles/global.css";
 ---
 
 <header class="fixed top-0 w-full z-50 h-16 md:h-20 px-6 md:px-12 xl:px-28 flex justify-between items-center bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-md">
@@ -19,32 +19,28 @@ import '../styles/global.css';
 
   <!-- Botão mobile -->
   <button 
-    id="navMenuToggler" 
-    class="lg:hidden p-3 z-20 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
-    aria-label="Abrir menu de navegação"
-    aria-expanded="false"
-    aria-controls="navMenu"
+    id="navToggle"
+    class="lg:hidden p-3 z-50 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
+    aria-label="Abrir menu"
   >
-    <span id="menuIcon" aria-hidden="true" class="text-2xl">☰</span>
-    <span class="sr-only">Abrir menu</span>
+    <span id="menuIcon" class="text-2xl">☰</span>
   </button>
 
-  <!-- Menu de navegação -->
-  <nav
-    id="navMenu"
-    class="fixed lg:relative top-16 lg:top-0 left-0 w-full lg:w-auto bg-white dark:bg-gray-900 lg:bg-transparent shadow-lg lg:shadow-none transition-all duration-300 ease-in-out flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8 p-6 lg:p-0 h-0 lg:h-full overflow-hidden opacity-0 lg:opacity-100 pointer-events-none lg:pointer-events-auto z-10"
-    tabindex="-1"
+  <!-- Menu -->
+  <div 
+    id="navMenu" 
+    class="fixed inset-0 bg-white dark:bg-gray-900 lg:relative lg:inset-auto lg:bg-transparent flex-col lg:flex-row items-center justify-center lg:justify-end gap-6 lg:gap-8 text-lg p-8 lg:p-0 transform scale-0 lg:scale-100 origin-top transition-transform duration-300 ease-in-out lg:flex hidden lg:opacity-100"
   >
-    <div class="flex flex-col lg:flex-row items-center gap-6 lg:gap-8 text-lg">
-      <a href="/" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" onclick="scrollToTop()">Home</a>
-      <a href="/blog" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Blog</a>
-      <a href="/jogos" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Jogos</a>
-      <a href="/#noticias-recentes" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Notícias Recentes</a>
-    </div>
-    <div class="mt-4 lg:mt-0">
+    <nav class="flex flex-col lg:flex-row items-center gap-6 lg:gap-8">
+      <a href="/" onclick="scrollToTop()" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Home</a>
+      <a href="/blog" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Blog</a>
+      <a href="/jogos" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Jogos</a>
+      <a href="/#noticias-recentes" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Notícias Recentes</a>
+    </nav>
+    <div class="mt-6 lg:mt-0">
       <Button />
     </div>
-  </nav>
+  </div>
 </header>
 
 <!-- Scripts -->
@@ -54,30 +50,36 @@ import '../styles/global.css';
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    const toggler = document.getElementById('navMenuToggler');
-    const navMenu = document.getElementById('navMenu');
-    const menuIcon = document.getElementById('menuIcon');
+    const toggle = document.getElementById("navToggle");
+    const menu = document.getElementById("navMenu");
+    const icon = document.getElementById("menuIcon");
 
-    if (!toggler || !navMenu || !menuIcon) return;
+    if (!toggle || !menu || !icon) return;
 
-    toggler.addEventListener('click', () => {
-      const isExpanded = toggler.getAttribute('aria-expanded') === 'true';
-
-      navMenu.classList.toggle('h-auto');
-      navMenu.classList.toggle('opacity-100');
-      navMenu.classList.toggle('pointer-events-auto');
-      navMenu.classList.toggle('py-6');
-
-      menuIcon.textContent = isExpanded ? '☰' : '✖';
-      toggler.setAttribute('aria-expanded', String(!isExpanded));
+    toggle.addEventListener("click", () => {
+      const isOpen = menu.classList.contains("scale-100");
+      if (isOpen) {
+        menu.classList.remove("scale-100");
+        menu.classList.add("scale-0");
+        menu.classList.add("hidden");
+        icon.textContent = "☰";
+      } else {
+        menu.classList.remove("hidden");
+        setTimeout(() => {
+          menu.classList.remove("scale-0");
+          menu.classList.add("scale-100");
+        }, 10);
+        icon.textContent = "✖";
+      }
     });
 
-    document.querySelectorAll('#navMenu a').forEach(link => {
-      link.addEventListener('click', () => {
+    document.querySelectorAll("#navMenu a").forEach(link => {
+      link.addEventListener("click", () => {
         if (window.innerWidth < 1024) {
-          navMenu.classList.remove('h-auto', 'opacity-100', 'pointer-events-auto', 'py-6');
-          menuIcon.textContent = '☰';
-          toggler.setAttribute('aria-expanded', 'false');
+          menu.classList.remove("scale-100");
+          menu.classList.add("scale-0");
+          menu.classList.add("hidden");
+          icon.textContent = "☰";
         }
       });
     });
