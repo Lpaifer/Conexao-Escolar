@@ -7,68 +7,121 @@ import "../../styles/global.css";
 <Layout title="Palavras Cruzadas | CONEXÃO ESCOLAR">
   <Header />
 
-  <section class="pt-24 container mx-auto px-4 text-center">
-    <h1 class="text-3xl font-bold mb-6">Jogo de Palavras Cruzadas</h1>
-    <p class="mb-6 text-gray-700 dark:text-gray-300">Complete as palavras baseando-se nas dicas!</p>
+  <section class="pt-24 container mx-auto px-4 text-center max-w-screen-lg">
+    <h1 class="text-4xl font-extrabold mb-6 text-blue-700 dark:text-blue-300">Jogo de Palavras Cruzadas</h1>
+    <p class="mb-6 text-gray-600 dark:text-gray-300 text-lg">Complete com base nas dicas abaixo:</p>
 
-    <div id="cruzadas-container" class="grid grid-cols-5 gap-2 justify-center text-lg font-mono mb-8"></div>
+    <!-- Grid das cruzadas -->
+    <div id="cruzadas-container" class="grid grid-cols-12 gap-1 justify-center font-mono text-lg mb-10"></div>
 
-    <div id="dicas-container" class="text-left max-w-md mx-auto space-y-4">
-      <h2 class="text-xl font-semibold mb-2">Dicas:</h2>
-      <ul class="list-disc list-inside text-gray-700 dark:text-gray-300">
-        <li><b>1.</b> Lugar onde estudamos. (6 letras)</li>
-        <li><b>2.</b> Pessoa que ensina. (9 letras)</li>
-        <li><b>3.</b> Ato de adquirir conhecimento. (9 letras)</li>
+    <!-- Dicas -->
+    <div class="text-left max-w-xl mx-auto mb-8 space-y-4">
+      <h2 class="text-xl font-semibold text-indigo-600 dark:text-indigo-300">Dicas:</h2>
+      <ul class="list-disc list-inside text-gray-800 dark:text-gray-200">
+        <li><b>1.</b> Lugar onde estudamos. (6 letras) – Horizontal</li>
+        <li><b>2.</b> Pessoa que ensina. (9 letras) – Vertical</li>
+        <li><b>3.</b> Ato de adquirir conhecimento. (8 letras) – Horizontal</li>
+        <li><b>4.</b> Período de descanso na escola. (7 letras) – Vertical</li>
+        <li><b>5.</b> Objeto usado para escrever. (5 letras) – Horizontal</li>
       </ul>
     </div>
 
-    <button id="verificar-btn" class="mt-8 px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition">Verificar Respostas</button>
-    <div id="mensagem" class="mt-6 text-xl font-bold"></div>
+    <!-- Botão de verificação -->
+    <button id="verificar-btn" class="mt-4 px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-full shadow-md hover:brightness-110 transition-all">
+      ✔️ Verificar Respostas
+    </button>
+
+    <!-- Mensagem de resultado -->
+    <div id="mensagem" class="mt-6 text-xl font-bold min-h-[40px]"></div>
   </section>
 
-  <script>
+  <script type="module">
     document.addEventListener('DOMContentLoaded', () => {
-      const respostas = [
-        "ESCOLA", // horizontal linha 0
-        "PROFESSOR", // vertical coluna 0
-        "APRENDER" // horizontal linha 2
-      ];
+      const grid = document.getElementById('cruzadas-container');
+      const respostas = {
+        horizontal1: { palavra: "ESCOLA", row: 0, col: 0 },
+        vertical1: { palavra: "PROFESSOR", row: 0, col: 0, vertical: true },
+        horizontal2: { palavra: "APRENDER", row: 2, col: 2 },
+        vertical2: { palavra: "RECREIO", row: 0, col: 5, vertical: true },
+        horizontal3: { palavra: "LAPIS", row: 4, col: 3 }
+      };
 
-      const cruzadasContainer = document.getElementById('cruzadas-container');
+      const inputs = {};
+      const gridRows = 12, gridCols = 12;
 
-      // Criar grid de inputs
-      for (let i = 0; i < 5 * 5; i++) {
-        const input = document.createElement('input');
-        input.maxLength = 1;
-        input.className = 'w-10 h-10 text-center border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100';
-        cruzadasContainer.appendChild(input);
+      // Criação da grade de inputs
+      for (let l = 0; l < gridRows; l++) {
+        for (let c = 0; c < gridCols; c++) {
+          const key = `${l}-${c}`;
+          const input = document.createElement('input');
+          input.maxLength = 1;
+          input.className = 'w-10 h-10 text-center text-xl font-semibold uppercase border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 text-blue-800 dark:text-white focus:ring-2 focus:ring-blue-500 rounded-md transition';
+          input.dataset.row = l.toString();
+          input.dataset.col = c.toString();
+          input.disabled = true;
+          inputs[key] = input;
+          grid.appendChild(input);
+        }
       }
 
-      document.getElementById('verificar-btn').addEventListener('click', () => {
-        const inputs = cruzadasContainer.querySelectorAll('input');
-        let acertou = true;
-
-        // Verificar linha 0 (ESCOLA)
-        const palavra1 = Array.from({ length: 6 }, (_, i) => inputs[i].value.toUpperCase()).join('');
-        if (palavra1 !== respostas[0]) acertou = false;
-
-        // Verificar coluna 0 (PROFESSOR)
-        const palavra2 = Array.from({ length: 9 }, (_, i) => {
-          const row = i;
-          return inputs[row * 5 + 0]?.value.toUpperCase() || '';
-        }).join('');
-        if (palavra2 !== respostas[1]) acertou = false;
-
-        // Verificar linha 2 (APRENDER)
-        const palavra3 = Array.from({ length: 8 }, (_, i) => inputs[2 * 5 + i].value.toUpperCase()).join('');
-        if (palavra3 !== respostas[2]) acertou = false;
-
-        const mensagem = document.getElementById('mensagem');
-        if (acertou) {
-          mensagem.textContent = "🎉 Parabéns! Você completou corretamente!";
-        } else {
-          mensagem.textContent = "😢 Algumas palavras estão erradas. Tente novamente!";
+      // Ativa os inputs que fazem parte de alguma palavra
+      Object.values(respostas).forEach(({ palavra, row, col, vertical }) => {
+        for (let i = 0; i < palavra.length; i++) {
+          const r = vertical ? row + i : row;
+          const c = vertical ? col : col + i;
+          const el = inputs[`${r}-${c}`];
+          if (el) el.disabled = false;
         }
+      });
+
+      // Avança para o próximo input
+      grid.addEventListener('input', (e) => {
+        const el = /** @type {HTMLInputElement} */ (e.target);
+        el.value = el.value.toUpperCase();
+        el.classList.add("bg-emerald-100");
+        const row = parseInt(el.dataset.row);
+        const col = parseInt(el.dataset.col);
+        const nextKey = `${row}-${col + 1}`;
+        const nextEl = inputs[nextKey];
+        if (nextEl && !nextEl.disabled) nextEl.focus();
+      });
+
+      // Verifica respostas
+      document.getElementById('verificar-btn').addEventListener('click', () => {
+        let correto = true;
+
+        for (const key in respostas) {
+          const { palavra, row, col, vertical } = respostas[key];
+          let entrada = "";
+
+          for (let i = 0; i < palavra.length; i++) {
+            const r = vertical ? row + i : row;
+            const c = vertical ? col : col + i;
+            const el = inputs[`${r}-${c}`];
+            entrada += el?.value.toUpperCase() || "";
+          }
+
+          for (let i = 0; i < palavra.length; i++) {
+            const r = vertical ? row + i : row;
+            const c = vertical ? col : col + i;
+            const el = inputs[`${r}-${c}`];
+
+            if (entrada !== palavra) {
+              correto = false;
+              el.classList.remove("bg-emerald-100");
+              el.classList.add("bg-rose-200", "animate-pulse");
+              setTimeout(() => el.classList.remove("animate-pulse"), 300);
+            } else {
+              el.classList.remove("bg-rose-200");
+              el.classList.add("bg-green-200");
+            }
+          }
+        }
+
+        const msg = document.getElementById("mensagem");
+        msg.innerHTML = correto
+          ? `<span class="text-green-600">✅ Parabéns! Todas as palavras estão corretas!</span>`
+          : `<span class="text-red-600">❌ Algumas palavras estão erradas. Verifique os campos vermelhos!</span>`;
       });
     });
   </script>
