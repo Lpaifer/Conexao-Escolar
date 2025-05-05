@@ -1,165 +1,178 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
-import Button from "../components/Button.astro";
 import "../styles/global.css";
 ---
 
 <Layout title="Home | CONEXÃO ESCOLAR">
   <Header />
 
-  <!-- Conteúdo Principal -->
-  <div class="bg-white dark:bg-black text-gray-900 dark:text-gray-100 transition-all duration-300">
-
+  <div class="bg-white dark:bg-black text-gray-900 dark:text-gray-100 transition-colors duration-300">
     <div class="container mx-auto px-4 mt-8">
-      <h2 class="text-center text-3xl font-bold mb-6 mt-32">Central de Notícias</h2>
-      <p class="text-left mx-1 text-lg">
-        Aqui você encontra as últimas atualizações e informações relevantes sobre o universo da educação. Nossos redatores especializados trazem notícias completas e aprofundadas, abordando desde inovações pedagógicas até decisões importantes que impactam o cenário escolar. Fique por dentro das tendências e acompanhe os temas que moldam o futuro de estudantes, educadores e instituições de ensino!
-      </p>
 
-      <!-- Artigos Fixos -->
-      <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Título -->
+      <section class="mt-32">
+        <h2 class="text-center text-3xl font-bold mb-6">Central de Notícias</h2>
+        <p class="text-left mx-1 text-lg">
+          Aqui você encontra as últimas atualizações e informações relevantes sobre o universo da educação.
+        </p>
+      </section>
 
-        {/** Artigo exemplo */}
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col transition hover:shadow-2xl">
-          <img src="celulares.jpg" alt="Título da Notícia" class="w-full h-48 object-cover">
-          <div class="p-6 flex flex-col flex-grow">
-            <h5 class="text-xl font-bold text-blue-800 dark:text-white mb-3">
-			  Proibição de Celulares nas Escolas
-            </h5>
-            <p class="text-gray-700 dark:text-gray-300 mb-6 flex-grow">
-				Venha entender o debate sobre o uso de celulares nas escolas! Por que proibir? Quais os benefícios e desafios? Como isso afeta o aprendizado e o dia a dia dos alunos? Explore os argumentos e experiências que moldam essa discussão.
-            </p>
-            <a href="https://gustavo-champam.github.io/Proibi-oCelular.github.io/" target="_blank" class="mt-auto inline-block bg-blue-800 text-white px-6 py-2 rounded-full text-center hover:bg-blue-700 transition">
-              Leia mais
-            </a>
+      <!-- Carrossel -->
+      <section class="mt-12">
+        <div class="swiper mySwiper pb-12">
+          <div class="swiper-wrapper">
+
+            <!-- Slide fixo -->
+            <div class="swiper-slide">
+              <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col transition hover:scale-[1.02] hover:shadow-2xl">
+                <img src="/celulares.jpg" alt="Proibição de Celulares nas Escolas" class="w-full h-48 md:h-64 object-cover object-center">
+                <div class="p-6 flex flex-col flex-grow">
+                  <h5 class="text-xl font-bold text-blue-800 dark:text-white mb-3">
+                    Proibição de Celulares nas Escolas
+                  </h5>
+                  <p class="text-gray-700 dark:text-gray-300 mb-6 flex-grow">
+                    Entenda o debate sobre o uso de celulares nas escolas e como isso impacta o aprendizado.
+                  </p>
+                  <a href="https://gustavo-champam.github.io/Proibi-oCelular.github.io/" target="_blank" class="mt-auto inline-block bg-blue-800 text-white px-6 py-2 rounded-full text-center hover:bg-blue-700 transition">
+                    Leia mais
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slides "em breve" -->
+            <!-- NOTA: key removido pois Astro puro não usa -->
+            <div class="swiper-slide">
+              <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col transition hover:scale-[1.02] hover:shadow-2xl">
+                <img src="/em_breve.jpg" alt="Notícia em breve" class="w-full h-48 md:h-64 object-cover object-center">
+                <div class="p-6 flex flex-col flex-grow">
+                  <h5 class="text-xl font-bold text-blue-800 dark:text-white mb-3">Próxima notícia em breve</h5>
+                  <p class="text-gray-700 dark:text-gray-300 mb-6 flex-grow">Descrição da próxima notícia em breve.</p>
+                  <a href="#" class="mt-auto inline-block bg-blue-800 text-white px-6 py-2 rounded-full text-center hover:bg-blue-700 transition">Leia mais</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col transition hover:scale-[1.02] hover:shadow-2xl">
+                <img src="/em_breve.jpg" alt="Notícia em breve" class="w-full h-48 md:h-64 object-cover object-center">
+                <div class="p-6 flex flex-col flex-grow">
+                  <h5 class="text-xl font-bold text-blue-800 dark:text-white mb-3">Próxima notícia em breve</h5>
+                  <p class="text-gray-700 dark:text-gray-300 mb-6 flex-grow">Descrição da próxima notícia em breve.</p>
+                  <a href="#" class="mt-auto inline-block bg-blue-800 text-white px-6 py-2 rounded-full text-center hover:bg-blue-700 transition">Leia mais</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col transition hover:scale-[1.02] hover:shadow-2xl">
+                <img src="/em_breve.jpg" alt="Notícia em breve" class="w-full h-48 md:h-64 object-cover object-center">
+                <div class="p-6 flex flex-col flex-grow">
+                  <h5 class="text-xl font-bold text-blue-800 dark:text-white mb-3">Próxima notícia em breve</h5>
+                  <p class="text-gray-700 dark:text-gray-300 mb-6 flex-grow">Descrição da próxima notícia em breve.</p>
+                  <a href="#" class="mt-auto inline-block bg-blue-800 text-white px-6 py-2 rounded-full text-center hover:bg-blue-700 transition">Leia mais</a>
+                </div>
+              </div>
+            </div>
+
           </div>
+
+          <!-- Controles -->
+          <div class="swiper-button-next" aria-label="Próximo slide"></div>
+          <div class="swiper-button-prev" aria-label="Slide anterior"></div>
+          <div class="swiper-pagination"></div>
         </div>
+      </section>
 
-		        {/** Artigo exemplo */}
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col transition hover:shadow-2xl">
-          <img src="em_breve.jpg" alt="Título da Notícia" class="w-full h-48 object-cover">
-          <div class="p-6 flex flex-col flex-grow">
-            <h5 class="text-xl font-bold text-blue-800 dark:text-white mb-3">
-              Próxima notícia em breve
-            </h5>
-            <p class="text-gray-700 dark:text-gray-300 mb-6 flex-grow">
-              Descrição da próxima notícia em breve.
-            </p>
-            <a href="#" target="_blank" class="mt-auto inline-block bg-blue-800 text-white px-6 py-2 rounded-full text-center hover:bg-blue-700 transition">
-              Leia mais
-            </a>
-          </div>
+      <!-- Notícias da API -->
+      <section class="mt-32">
+        <h2 class="text-center text-3xl font-bold mb-6">Notícias Recentes</h2>
+        <p class="text-left mx-1 text-lg">Confira as últimas notícias sobre educação e tecnologia nas escolas.</p>
+        <div id="news-container" class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <p class="col-span-full text-center text-gray-500" id="loading-text">Carregando notícias...</p>
         </div>
+      </section>
 
-		        {/** Artigo exemplo */}
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col transition hover:shadow-2xl">
-          <img src="em_breve.jpg" alt="Título da Notícia" class="w-full h-48 object-cover">
-          <div class="p-6 flex flex-col flex-grow">
-            <h5 class="text-xl font-bold text-blue-800 dark:text-white mb-3">
-              Próxima notícia em breve
-            </h5>
-            <p class="text-gray-700 dark:text-gray-300 mb-6 flex-grow">
-              Descrição da próxima notícia em breve.
-            </p>
-            <a href="#" target="_blank" class="mt-auto inline-block bg-blue-800 text-white px-6 py-2 rounded-full text-center hover:bg-blue-700 transition">
-              Leia mais
-            </a>
-          </div>
-        </div>
-
-		        {/** Artigo exemplo */}
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col transition hover:shadow-2xl">
-          <img src="em_breve.jpg" alt="Título da Notícia" class="w-full h-48 object-cover">
-          <div class="p-6 flex flex-col flex-grow">
-            <h5 class="text-xl font-bold text-blue-800 dark:text-white mb-3">
-              Próxima notícia em breve
-            </h5>
-            <p class="text-gray-700 dark:text-gray-300 mb-6 flex-grow">
-              Descrição da próxima notícia em breve.
-            </p>
-            <a href="#" target="_blank" class="mt-auto inline-block bg-blue-800 text-white px-6 py-2 rounded-full text-center hover:bg-blue-700 transition">
-              Leia mais
-            </a>
-          </div>
-        </div>
-
-        {/** Repita para quantos artigos quiser... */}
-        
-      </div>
-
-      <!-- Seção de Notícias Recentes da API -->
-      <h2 id="noticias-recentes" class="text-center text-3xl font-bold mb-6 mt-32">Notícias Recentes</h2>
-      <p class="text-left mx-1 text-lg">
-        Confira as últimas notícias sobre o mundo da educação e o uso de tecnologias nas escolas. Acompanhe atualizações em tempo real e fique informado sobre tendências, desafios e inovações que impactam estudantes, professores e toda a comunidade escolar.
-      </p>
-
-      <div id="news-container" class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- As notícias serão carregadas aqui via JavaScript -->
-      </div>
-
-      <!-- Seção Sobre Nós -->
-      <div class="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 p-8 rounded-xl mt-16">
+      <!-- Sobre Nós -->
+      <section class="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 p-8 rounded-xl mt-16">
         <h3 class="text-center text-2xl font-bold mb-6">Sobre Nós</h3>
-        <p class="mb-4">
-          A Central de Notícias "Conexão Escolar" nasceu com o objetivo de ser uma fonte confiável de informação para educadores, estudantes e todos aqueles interessados no cenário educacional.
-        </p>
-        <p class="mb-4">
-          Com uma equipe dedicada de jornalistas e colaboradores especializados, buscamos abordar temas relevantes como:
-        </p>
+        <p class="mb-4">A Central de Notícias "Conexão Escolar" nasceu com o objetivo de ser uma fonte confiável de informação educacional.</p>
         <ul class="list-disc list-inside mb-4 space-y-1">
-          <li>Inovações no ensino e metodologias de ensino adaptadas à nova geração;</li>
-          <li>Ações e políticas públicas para o setor educacional;</li>
-          <li>Novidades sobre exames e avaliações educacionais;</li>
-          <li>Impactos da tecnologia no ambiente escolar;</li>
-          <li>Projetos de inclusão e acessibilidade nas escolas.</li>
+          <li>Inovações no ensino;</li>
+          <li>Políticas públicas educacionais;</li>
+          <li>Exames e avaliações;</li>
+          <li>Tecnologia no ambiente escolar;</li>
+          <li>Projetos de inclusão e acessibilidade.</li>
         </ul>
-        <p>
-          Nossa missão é conectar você com as informações mais relevantes para o seu dia a dia, seja você um estudante buscando entender melhor o que está acontecendo no universo educacional, ou um educador em busca de novas ideias e soluções para aplicar em sala de aula.
-        </p>
-        <p class="mt-4">
-          Junte-se a nós e faça parte dessa jornada de transformação no mundo da educação!
-        </p>
-      </div>
-
+        <p>Nossa missão é conectar você com as informações mais relevantes para o seu dia a dia como educador ou estudante.</p>
+      </section>
     </div>
-
   </div>
 
-  <!-- Script para carregar as notícias -->
-  <script>
-document.addEventListener('DOMContentLoaded', () => {
-  async function loadNews() {
-    const url = '/api/news'; 
+  <!-- Swiper CSS (ideal mover para Layout.astro) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
+  <!-- Swiper Script -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js" defer></script>
 
-      if (data.status === 'ok') {
-        const newsContainer = document.getElementById('news-container');
-        if (newsContainer) {
-          data.articles.forEach((article) => {
-            const articleElement = document.createElement('div');
-            articleElement.className = 'bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col transition hover:shadow-2xl';
-            articleElement.innerHTML = `
-              <img src="${article.urlToImage || 'https://via.placeholder.com/400x250'}" alt="${article.title}" class="w-full h-48 object-cover">
-              <div class="p-6 flex flex-col flex-grow">
-                <h5 class="text-xl font-bold text-blue-800 dark:text-white mb-2">${article.title}</h5>
-                <p class="text-gray-700 dark:text-gray-300 flex-grow">${article.description || ''}</p>
-                <a href="${article.url}" target="_blank" class="mt-4 inline-block bg-blue-800 text-white px-6 py-2 rounded-full text-center hover:bg-blue-700 transition">Leia mais</a>
-              </div>`;
-            newsContainer.appendChild(articleElement);
-          });
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      new Swiper('.mySwiper', {
+        loop: true,
+        spaceBetween: 20,
+        slidesPerView: 1,
+        centeredSlides: true,
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+          640: { slidesPerView: 1.2 },
+          768: { slidesPerView: 2 },
+          1024: { slidesPerView: 2.5 },
         }
+      });
+    });
+  </script>
+
+  <!-- Carregar notícias da API -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const response = await fetch('/api/news');
+        const data = await response.json();
+        const container = document.getElementById('news-container');
+        const loading = document.getElementById('loading-text');
+
+        if (data.status === 'ok' && container) {
+          loading.remove();
+          data.articles.forEach(article => {
+            container.innerHTML += `
+              <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col transition hover:scale-[1.02] hover:shadow-2xl">
+                <img src="${article.urlToImage || '/em_breve.jpg'}" alt="${article.title}" class="w-full h-48 object-cover object-center">
+                <div class="p-6 flex flex-col flex-grow">
+                  <h5 class="text-xl font-bold text-blue-800 dark:text-white mb-2">${article.title}</h5>
+                  <p class="text-gray-700 dark:text-gray-300 flex-grow">${article.description || ''}</p>
+                  <a href="${article.url}" target="_blank" class="mt-4 inline-block bg-blue-800 text-white px-6 py-2 rounded-full text-center hover:bg-blue-700 transition">Leia mais</a>
+                </div>
+              </div>`;
+          });
+        } else {
+          loading.textContent = "Nenhuma notícia disponível no momento.";
+        }
+      } catch (error) {
+        console.error('Erro ao carregar notícias:', error);
+        document.getElementById('loading-text').textContent = "Erro ao carregar notícias.";
       }
-    } catch (error) {
-      console.error('Erro ao carregar notícias:', error);
-    }
-  }
-
-  loadNews();
-});
-
-    </script>
+    });
+  </script>
 </Layout>
