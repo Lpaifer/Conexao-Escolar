@@ -12,21 +12,21 @@ import "../styles/global.css";
 
       <!-- Título -->
       <section class="mt-32">
-        <h2 class="text-center text-3xl font-bold mb-6">Central de Notícias</h2>
+        <h2 class="text-center text-3xl font-bold mb-6">📰 Central de Notícias</h2>
         <p class="text-left mx-1 text-lg">
-          Aqui você encontra as últimas atualizações e informações relevantes sobre o universo da educação.
+          Aqui você encontra as últimas atualizações e informações relevantes sobre o universo da educação. Nossa equipe de redatores especializados trabalha para trazer conteúdos aprofundados, atualizados e confiáveis sobre temas que impactam diretamente o ambiente escolar. Desde inovações pedagógicas e políticas públicas até questões tecnológicas e sociais, reunimos tudo em um só lugar para manter você bem informado.
         </p>
       </section>
 
       <!-- Carrossel -->
       <section class="mt-12">
-        <div class="swiper mySwiper pb-12">
-          <div class="swiper-wrapper">
+        <div class="swiper mySwiper w-full h-[32rem] md:h-[40rem]">
+          <div class="swiper-wrapper h-full">
 
             <!-- Slide fixo -->
-            <div class="swiper-slide">
+            <div class="swiper-slide h-full">
               <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col transition hover:scale-[1.02] hover:shadow-2xl">
-                <img src="/celulares.jpg" alt="Proibição de Celulares nas Escolas" class="w-full h-48 md:h-64 object-cover object-center">
+                <img src="/celulares.jpg" alt="Proibição de Celulares nas Escolas" class="w-full h-full md:h-110 object-cover object-center">
                 <div class="p-6 flex flex-col flex-grow">
                   <h5 class="text-xl font-bold text-blue-800 dark:text-white mb-3">
                     Proibição de Celulares nas Escolas
@@ -43,9 +43,9 @@ import "../styles/global.css";
 
             <!-- Slides "em breve" -->
             <!-- NOTA: key removido pois Astro puro não usa -->
-            <div class="swiper-slide">
+            <div class="swiper-slide h-full">
               <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col transition hover:scale-[1.02] hover:shadow-2xl">
-                <img src="/em_breve.jpg" alt="Notícia em breve" class="w-full h-48 md:h-64 object-cover object-center">
+                <img src="/em_breve.jpg" alt="Notícia em breve" class="w-full h-full md:h-110 object-cover object-center">
                 <div class="p-6 flex flex-col flex-grow">
                   <h5 class="text-xl font-bold text-blue-800 dark:text-white mb-3">Próxima notícia em breve</h5>
                   <p class="text-gray-700 dark:text-gray-300 mb-6 flex-grow">Descrição da próxima notícia em breve.</p>
@@ -54,9 +54,9 @@ import "../styles/global.css";
               </div>
             </div>
 
-            <div class="swiper-slide">
+            <div class="swiper-slide h-full">
               <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col transition hover:scale-[1.02] hover:shadow-2xl">
-                <img src="/em_breve.jpg" alt="Notícia em breve" class="w-full h-48 md:h-64 object-cover object-center">
+                <img src="/em_breve.jpg" alt="Notícia em breve" class="w-full h-full md:h-110 object-cover object-center">
                 <div class="p-6 flex flex-col flex-grow">
                   <h5 class="text-xl font-bold text-blue-800 dark:text-white mb-3">Próxima notícia em breve</h5>
                   <p class="text-gray-700 dark:text-gray-300 mb-6 flex-grow">Descrição da próxima notícia em breve.</p>
@@ -65,9 +65,9 @@ import "../styles/global.css";
               </div>
             </div>
 
-            <div class="swiper-slide">
+            <div class="swiper-slide h-full">
               <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col transition hover:scale-[1.02] hover:shadow-2xl">
-                <img src="/em_breve.jpg" alt="Notícia em breve" class="w-full h-48 md:h-64 object-cover object-center">
+                <img src="/em_breve.jpg" alt="Notícia em breve" class="w-full h-full md:h-110 object-cover object-center">
                 <div class="p-6 flex flex-col flex-grow">
                   <h5 class="text-xl font-bold text-blue-800 dark:text-white mb-3">Próxima notícia em breve</h5>
                   <p class="text-gray-700 dark:text-gray-300 mb-6 flex-grow">Descrição da próxima notícia em breve.</p>
@@ -86,9 +86,9 @@ import "../styles/global.css";
       </section>
 
       <!-- Notícias da API -->
-      <section class="mt-32">
-        <h2 class="text-center text-3xl font-bold mb-6">Notícias Recentes</h2>
-        <p class="text-left mx-1 text-lg">Confira as últimas notícias sobre educação e tecnologia nas escolas.</p>
+      <section id=noticias-recentes class="mt-32">
+        <h2 class="text-center text-3xl font-bold mb-6">📰 Notícias Recentes</h2>
+        <p class="text-left mx-1 text-lg">Confira as últimas notícias sobre educação e tecnologia nas escolas. Esta seção é atualizada frequentemente com base nas publicações mais relevantes do momento, garantindo que você tenha acesso a conteúdos atualizados sobre tendências educacionais, inovações tecnológicas, políticas públicas e tudo o que impacta o ambiente escolar.</p>
         <div id="news-container" class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
           <p class="col-span-full text-center text-gray-500" id="loading-text">Carregando notícias...</p>
         </div>
@@ -96,19 +96,23 @@ import "../styles/global.css";
 
       <!-- Sobre Nós -->
       <section class="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 p-8 rounded-xl mt-16">
-        <h3 class="text-center text-2xl font-bold mb-6">Sobre Nós</h3>
-        <p class="mb-4">A Central de Notícias "Conexão Escolar" nasceu com o objetivo de ser uma fonte confiável de informação educacional.</p>
+        <h3 class="text-center text-2xl font-bold mb-6">📚 Sobre Nós</h3>
+        <p class="mb-4">
+          A <strong>Central de Notícias Conexão Escolar</strong> foi criada com o propósito de ser uma fonte confiável e acessível de informação voltada à educação.
+          Nosso compromisso é oferecer conteúdos de qualidade que apoiem educadores, estudantes e gestores escolares na compreensão das transformações do cenário educacional.
+        </p>
         <ul class="list-disc list-inside mb-4 space-y-1">
-          <li>Inovações no ensino;</li>
-          <li>Políticas públicas educacionais;</li>
-          <li>Exames e avaliações;</li>
-          <li>Tecnologia no ambiente escolar;</li>
-          <li>Projetos de inclusão e acessibilidade.</li>
+          <li>Inovações no ensino e metodologias pedagógicas;</li>
+          <li>Políticas públicas e reformas educacionais;</li>
+          <li>Exames, avaliações e indicadores de desempenho;</li>
+          <li>Tecnologia e transformação digital nas escolas;</li>
+          <li>Projetos de inclusão, acessibilidade e equidade educacional.</li>
         </ul>
-        <p>Nossa missão é conectar você com as informações mais relevantes para o seu dia a dia como educador ou estudante.</p>
+        <p>
+          Com uma equipe dedicada e especializada, nossa missão é conectar você às informações mais relevantes, promovendo conhecimento, reflexão e evolução no ambiente escolar.
+        </p>
       </section>
-    </div>
-  </div>
+      
 
   <!-- Swiper CSS (ideal mover para Layout.astro) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
@@ -120,7 +124,7 @@ import "../styles/global.css";
     document.addEventListener('DOMContentLoaded', () => {
       new Swiper('.mySwiper', {
         loop: true,
-        spaceBetween: 20,
+        spaceBetween: 30,
         slidesPerView: 1,
         centeredSlides: true,
         autoplay: {
@@ -135,11 +139,6 @@ import "../styles/global.css";
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
         },
-        breakpoints: {
-          640: { slidesPerView: 1.2 },
-          768: { slidesPerView: 2 },
-          1024: { slidesPerView: 2.5 },
-        }
       });
     });
   </script>
