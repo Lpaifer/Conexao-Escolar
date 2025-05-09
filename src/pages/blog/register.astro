@@ -1,0 +1,16 @@
+---
+import Header from '../../components/Header.astro';
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="REGISTRO | CONEXÃO ESCOLAR">
+  <Header />
+  
+  <form class="max-w-md mx-auto mt-32 bg-white dark:bg-black text-gray-900 dark:text-gray-100 p-6 rounded shadow">
+    <h2 class="text-xl font-semibold mb-4">Cadastre-se</h2>
+    <input type="text" name="nome" placeholder="Seu nome" class="w-full mb-3 p-2 border rounded" />
+    <input type="email" name="email" placeholder="Email" class="w-full mb-3 p-2 border rounded" />
+    <input type="password" name="senha" placeholder="Senha" class="w-full mb-3 p-2 border rounded" />
+    <button class="w-full py-2 bg-primary text-white font-bold rounded">Cadastrar</button>
+  </form>
+</Layout>
