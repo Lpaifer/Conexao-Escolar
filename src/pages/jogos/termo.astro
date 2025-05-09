@@ -1,0 +1,150 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import "../../styles/global.css"; // você ainda pode deixar esse se quiser usar Tailwind globalmente
+---
+
+<Layout title="TERMO | CONEXÃO ESCOLAR">
+  <Header />
+
+  <div class="flex justify-center items-center min-h-screen bg-black text-[aliceblue] font-['Montserrat']">
+    <div class="text-center">
+      <h1 class="text-4xl font-bold mb-6 mt-32">TERMO</h1>
+
+      <div id="board" class="grid grid-cols-5 gap-1 mx-auto my-6"></div>
+
+      <div id="jogarDnvContainer" class="mt-6 text-lg hidden">
+        <p class="mb-2">Deseja jogar novamente?</p>
+        <div class="flex justify-center gap-4">
+          <button id="simBtn" class="bg-[#3B4D66] text-white px-5 py-2 text-base rounded">Sim</button>
+          <button id="naoBtn" class="bg-[#3B4D66] text-white px-5 py-2 text-base rounded">Não</button>
+        </div>
+      </div>
+
+      <div class="flex justify-center items-center gap-3 mt-6">
+        <input
+          type="text"
+          id="guessInput"
+          maxlength="5"
+          placeholder="."
+          class="px-4 py-2 text-base bg-[#3B4D66] text-white font-['Montserrat'] rounded"
+        />
+        <button
+          id="submitGuess"
+          class="bg-[#3B4D66] text-white px-5 py-2 rounded text-base"
+        >
+          Enviar
+        </button>
+      </div>
+
+      <div id="message" class="mt-4 text-lg font-semibold"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    const words = [
+      "aluno", "prova", "livro", "lousa", "texto", "folha", "copia", "tinta", "notas",
+      "turma", "letra", "lapis", "teste", "curso", "pasta", "grupo", "grade",
+      "média", "aulas", "caixa", "salas", "temas", "mapas"
+    ];
+    
+    let randomWord = words[Math.floor(Math.random() * words.length)];
+    let attempts = 0;
+
+    const board = document.getElementById("board");
+    const guessInput = document.getElementById("guessInput");
+    const submitGuess = document.getElementById("submitGuess");
+    const message = document.getElementById("message");
+
+    submitGuess?.addEventListener("click", () => {
+      const guess = guessInput?.value.toLowerCase();
+      if (!guess || guess.length !== 5) {
+        alert("Por favor, insira uma palavra com 5 letras.");
+        return;
+      }
+
+      attempts++;
+      displayGuess(guess);
+      checkGuess(guess);
+      guessInput.value = "";
+    });
+
+    function displayGuess(guess) {
+      if (!board) return;
+      for (let i = 0; i < 5; i++) {
+        const cell = document.createElement("div");
+        cell.className =
+          "w-[50px] h-[50px] border border-[#2A3A4F] flex items-center justify-center text-2xl bg-[#3B4D66] text-white";
+        cell.textContent = guess[i];
+        board.appendChild(cell);
+      }
+    }
+
+    function checkGuess(guess) {
+      const guessArray = guess.split("");
+      const randomWordArray = randomWord.split("");
+      const result = Array(5).fill("absent");
+
+      guessArray.forEach((letter, index) => {
+        if (letter === randomWordArray[index]) {
+          result[index] = "correct";
+        } else if (randomWordArray.includes(letter)) {
+          result[index] = "present";
+        }
+      });
+
+      const cells = document.querySelectorAll(".w-\\[50px\\]");
+      for (let i = 0; i < 5; i++) {
+        const cell = cells[cells.length - 5 + i];
+        if (result[i] === "correct") {
+          cell.classList.remove("bg-[#3B4D66]");
+          cell.classList.add("bg-green-700", "text-white");
+        } else if (result[i] === "present") {
+          cell.classList.remove("bg-[#3B4D66]");
+          cell.classList.add("bg-yellow-600", "text-black");
+        } else {
+          cell.classList.remove("bg-[#3B4D66]");
+          cell.classList.add("bg-[#2A3A4F]", "text-white");
+        }
+      }
+
+      if (result.every((status) => status === "correct")) {
+        message.textContent = "Parabéns! Você acertou a palavra!";
+        submitGuess.disabled = true;
+        jogarDnv();
+      } else if (attempts === 6) {
+        message.textContent = `Fim de Jogo! A palavra era "\${randomWord}".\ `;
+        submitGuess.disabled = true;
+        jogarDnv();
+      }
+    }
+
+    function jogarDnv() {
+      const container = document.getElementById("jogarDnvContainer");
+      const simBtn = document.getElementById("simBtn");
+      const naoBtn = document.getElementById("naoBtn");
+      if (!container || !simBtn || !naoBtn) return;
+
+      container.style.display = "block";
+
+      simBtn.onclick = () => {
+        container.style.display = "none";
+        resetarJogo();
+      };
+
+      naoBtn.onclick = () => {
+        container.innerHTML = "<p>Obrigado por jogar!</p>";
+      };
+    }
+
+    function resetarJogo() {
+      if (!board || !guessInput || !message || !submitGuess) return;
+      board.innerHTML = "";
+      guessInput.value = "";
+      message.textContent = "";
+      submitGuess.disabled = false;
+      randomWord = words[Math.floor(Math.random() * words.length)];
+      attempts = 0;
+    }
+  </script>
+</Layout>
