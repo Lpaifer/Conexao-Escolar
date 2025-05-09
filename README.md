@@ -1,48 +1,63 @@
-# Astro Starter Kit: Basics
+# 📚 Conexão Escolas
 
-```sh
-npm create astro@latest -- --template basics
-```
+**Conexão Escolas** é uma plataforma web educativa desenvolvida com o objetivo de informar, conscientizar e promover o debate sobre os desafios da educação básica no Brasil. A aplicação reúne conteúdos relevantes sobre temas como evasão escolar, impactos do uso de celulares em sala de aula, políticas públicas educacionais, experiências globais e dados atualizados sobre crianças fora da escola.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+> Este projeto foi idealizado como parte da disciplina de Desenvolvimento Web do curso de Engenharia da Computação, com foco em HTML, CSS, JavaScript e frameworks modernos como Astro e TailwindCSS.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+---
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+## 🌐 Acesse o Projeto Online
 
-## 🚀 Project Structure
+🔗 [[[(https://conexao-escolas.vercel.app/](https://conexao-escolas.vercel.app/)))
 
-Inside of your Astro project, you'll see the following folders and files:
+---
 
-```text
+## 🧩 Funcionalidades Principais
+
+- ✅ **Página Inicial** com chamada impactante e design responsivo
+- ✅ **Carrossel de Notícias** com visual dinâmico
+- ✅ **Modo Claro/Escuro**
+- ✅ **Seções informativas** sobre:
+  - Crianças fora da escola
+  - Argumentos a favor e contra o uso de celulares
+  - Impactos sociais e educacionais
+  - Experiências de outros países
+- ✅ **Jogos educativos** (em breve: Termo, Caça-palavras, Jogo da Forca)
+- ✅ **Design moderno com TailwindCSS**
+- 🚧 Admin/Login para controle de conteúdo (planejado)
+- 🚧 CMS ou integração com banco de dados (futuro)
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+| Ferramenta        | Descrição                              |
+|-------------------|----------------------------------------|
+| [Astro](https://astro.build/)           | Framework moderno para sites rápidos e otimizados |
+| [Tailwind CSS](https://tailwindcss.com/) | Utilitário para estilização moderna e responsiva   |
+| [JavaScript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript) | Lógica de interatividade nos jogos e páginas |
+| [HTML5](https://developer.mozilla.org/pt-BR/docs/Web/HTML) | Estrutura das páginas |
+| [CSS3](https://developer.mozilla.org/pt-BR/docs/Web/CSS) | Estilização básica e customizações manuais |
+
+---
+
+## 🗂️ Estrutura do Projeto
+
+```bash
 /
 ├── public/
-│   └── favicon.svg
+│   └── img/                 # Imagens do site
 ├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+│   ├── components/          # Header, Footer, Cards, Botões
+│   ├── layouts/             # Layout base usado nas páginas
+│   ├── pages/
+│   │   ├── index.astro      # Página inicial
+│   │   ├── sobre.astro      # Página 'Sobre'
+│   │   ├── celular.astro    # Seção sobre celulares
+│   │   └── ...              # Outras seções informativas
+│   └── styles/
+│       └── global.css       # Estilos com Tailwind
+├── astro.config.mjs         # Configuração do Astro
+├── tailwind.config.cjs      # Configuração do Tailwind
+├── tsconfig.json            # Configuração do TypeScript
+└── package.json             # Dependências do projeto
