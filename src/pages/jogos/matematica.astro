@@ -1,0 +1,84 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import "../../styles/global.css";
+---
+
+<Layout title="DESAFIO MATEMÁTICA | CONEXÃO ESCOLAR">
+  <Header />
+
+<section class="pt-24 pb-12 px-4 max-w-2xl mx-auto text-center">
+  <h1 class="text-3xl font-bold mb-6">Desafio de Matemática</h1>
+  <p class="mb-6 text-gray-700 dark:text-gray-300">
+    Resolva o maior número de questões possível! Teste sua agilidade com operações de adição, subtração e multiplicação.
+  </p>
+
+  <div class="text-2xl font-semibold mb-4" id="pergunta"></div>
+
+  <input id="resposta" type="number" placeholder="Sua resposta" class="w-48 p-3 border rounded-md text-center text-xl mb-4" />
+  <br />
+  <button id="verificar" class="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Verificar</button>
+
+  <div id="feedback" class="mt-4 text-lg font-medium"></div>
+  <div class="mt-6 text-sm text-gray-600 dark:text-gray-400">Pontuação: <span id="pontuacao">0</span></div>
+</section>
+</Layout>
+
+<script is:inline>
+  const operacoes = ["+", "-", "*", "/"];
+  let num1, num2, operador, resultado;
+  let pontuacao = 0;
+
+  const perguntaEl = document.getElementById("pergunta");
+  const respostaEl = document.getElementById("resposta");
+  const feedbackEl = document.getElementById("feedback");
+  const verificarBtn = document.getElementById("verificar");
+  const pontuacaoEl = document.getElementById("pontuacao");
+
+  function gerarPergunta() {
+    // Define dificuldade aleatória
+    const dificuldade = Math.random() < 0.5 ? "facil" : Math.random() < 0.7 ? "medio" : "dificil";
+
+    let min = 1, max = 10;
+    if (dificuldade === "medio") [min, max] = [10, 50];
+    else if (dificuldade === "dificil") [min, max] = [50, 100];
+
+    operador = operacoes[Math.floor(Math.random() * operacoes.length)];
+
+    if (operador === "/") {
+      // Garante divisão exata
+      num2 = Math.floor(Math.random() * (max - min + 1)) + min;
+      const resultadoInteiro = Math.floor(Math.random() * (max - min + 1)) + min;
+      num1 = num2 * resultadoInteiro;
+      resultado = resultadoInteiro;
+    } else {
+      num1 = Math.floor(Math.random() * (max - min + 1)) + min;
+      num2 = Math.floor(Math.random() * (max - min + 1)) + min;
+
+      if (operador === "-" && num2 > num1) [num1, num2] = [num2, num1];
+      resultado = eval(`${num1} ${operador} ${num2}`);
+    }
+
+    perguntaEl.textContent = `${num1} ${operador} ${num2} = ?`;
+    respostaEl.value = "";
+    respostaEl.focus();
+    feedbackEl.textContent = "";
+  }
+
+  verificarBtn.addEventListener("click", () => {
+    const resposta = parseInt(respostaEl.value);
+    if (resposta === resultado) {
+      feedbackEl.textContent = "✅ Correto!";
+      feedbackEl.className = "mt-4 text-green-600 text-lg font-medium";
+      pontuacao++;
+    } else {
+      feedbackEl.textContent = `❌ Errado. A resposta correta era ${resultado}.`;
+      feedbackEl.className = "mt-4 text-red-600 text-lg font-medium";
+      pontuacao = 0;
+    }
+    pontuacaoEl.textContent = pontuacao;
+    setTimeout(gerarPergunta, 1500);
+  });
+
+  gerarPergunta();
+</script>

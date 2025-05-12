@@ -1,9 +1,9 @@
 ---
-import Button from "./Button.astro";
 import "../styles/global.css";
 ---
 
-<header class="fixed top-0 w-full z-50 h-16 md:h-20 px-6 md:px-12 xl:px-28 flex justify-between items-center bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-md">
+<!-- Header -->
+<header class="relative top-0 w-full z-50 h-16 md:h-20 px-6 md:px-12 xl:px-28 flex justify-between items-center bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-md">
   <!-- Logo -->
   <a href="/" class="flex items-center gap-3 hover:opacity-90 transition-opacity">
     <img 
@@ -17,33 +17,62 @@ import "../styles/global.css";
     <span class="text-xl md:text-2xl font-bold">Conexão Escolar</span>
   </a>
 
-  <!-- Botão mobile -->
-  <button 
-    id="navToggle"
-    class="lg:hidden p-3 z-50 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
-    aria-label="Abrir menu"
-  >
-    <span id="menuIcon" class="text-2xl">☰</span>
-  </button>
+  <!-- Ações mobile -->
+  <div class="flex items-center gap-3 lg:hidden">
+    <!-- Lupa (mobile) -->
+    <button 
+      id="searchToggle" 
+      class="p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md" 
+      aria-label="Buscar"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-800 dark:text-gray-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1010.5 18a7.5 7.5 0 006.15-3.35z" />
+      </svg>
+    </button>
 
-  <!-- Menu -->
+    <!-- Menu mobile -->
+    <button 
+      id="navToggle"
+      class="p-2 z-50 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md"
+      aria-label="Abrir menu"
+    >
+      <span id="menuIcon" class="text-2xl">☰</span>
+    </button>
+  </div>
+
+  <!-- Menu principal -->
   <div 
     id="navMenu" 
     class="fixed inset-0 bg-white dark:bg-gray-900 lg:relative lg:inset-auto lg:bg-transparent flex-col lg:flex-row items-center justify-center lg:justify-end gap-6 lg:gap-8 text-lg p-8 lg:p-0 transform scale-0 lg:scale-100 origin-top transition-transform duration-300 ease-in-out lg:flex hidden lg:opacity-100"
   >
-    <nav class="flex flex-col lg:flex-row items-center gap-6 lg:gap-8">
+    <nav class="flex flex-col lg:flex-row items-center gap-6 lg:gap-8 relative">
       <a href="/" onclick="scrollToTop()" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Home</a>
       <a href="/blog" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Blog</a>
       <a href="/jogos" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Jogos</a>
       <a href="/#noticias-recentes" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Notícias Recentes</a>
+
+      <!-- Campo de busca (só no desktop) -->
+      <input
+        id="searchInputDesktop"
+        type="text"
+        placeholder="Buscar notícias"
+        class="hidden lg:block w-60 p-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+      />
     </nav>
-    <div class="mt-6 lg:mt-0">
-      <Button />
-    </div>
   </div>
 </header>
 
-<!-- Scripts -->
+<!-- Campo de busca mobile -->
+<div id="mobileSearch" class="hidden px-6 pt-2 pb-4 bg-white dark:bg-gray-900 shadow-md lg:hidden">
+  <input
+    id="searchInputMobile"
+    type="text"
+    placeholder="Buscar notícias"
+    class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+  />
+</div>
+
+<!-- Script -->
 <script is:inline>
   function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -54,34 +83,55 @@ import "../styles/global.css";
     const menu = document.getElementById("navMenu");
     const icon = document.getElementById("menuIcon");
 
-    if (!toggle || !menu || !icon) return;
-
-    toggle.addEventListener("click", () => {
-      const isOpen = menu.classList.contains("scale-100");
-      if (isOpen) {
-        menu.classList.remove("scale-100");
-        menu.classList.add("scale-0");
-        menu.classList.add("hidden");
-        icon.textContent = "☰";
-      } else {
-        menu.classList.remove("hidden");
-        setTimeout(() => {
-          menu.classList.remove("scale-0");
-          menu.classList.add("scale-100");
-        }, 10);
-        icon.textContent = "✖";
-      }
-    });
-
-    document.querySelectorAll("#navMenu a").forEach(link => {
-      link.addEventListener("click", () => {
-        if (window.innerWidth < 1024) {
+    if (toggle && menu && icon) {
+      toggle.addEventListener("click", () => {
+        const isOpen = menu.classList.contains("scale-100");
+        if (isOpen) {
           menu.classList.remove("scale-100");
-          menu.classList.add("scale-0");
-          menu.classList.add("hidden");
+          menu.classList.add("scale-0", "hidden");
           icon.textContent = "☰";
+        } else {
+          menu.classList.remove("hidden");
+          setTimeout(() => {
+            menu.classList.remove("scale-0");
+            menu.classList.add("scale-100");
+          }, 10);
+          icon.textContent = "✖";
         }
       });
+
+      document.querySelectorAll("#navMenu a").forEach(link => {
+        link.addEventListener("click", () => {
+          if (window.innerWidth < 1024) {
+            menu.classList.remove("scale-100");
+            menu.classList.add("scale-0", "hidden");
+            icon.textContent = "☰";
+          }
+        });
+      });
+    }
+
+    const searchToggle = document.getElementById("searchToggle");
+    const mobileSearch = document.getElementById("mobileSearch");
+    const inputMobile = document.getElementById("searchInputMobile");
+    const inputDesktop = document.getElementById("searchInputDesktop");
+
+    // Mostrar campo de busca no mobile
+    searchToggle?.addEventListener("click", () => {
+      mobileSearch?.classList.toggle("hidden");
+      inputMobile?.focus();
     });
+
+    function aplicarFiltro(input) {
+      const term = input.value.toLowerCase();
+      const cards = document.querySelectorAll("#news-container > div");
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(term) ? "block" : "none";
+      });
+    }
+
+    inputMobile?.addEventListener("input", () => aplicarFiltro(inputMobile));
+    inputDesktop?.addEventListener("input", () => aplicarFiltro(inputDesktop));
   });
 </script>
