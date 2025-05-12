@@ -1,0 +1,42 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import "../../styles/global.css";
+---
+
+<Layout title="BLOG | CONEXÃO ESCOLAR">
+  <Header />
+  <section class="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-black text-gray-900 dark:text-gray-100 transition-colors duration-300 text-center p-4 mt-32">
+    <h1 class="text-3xl md:text-4xl font-bold mb-4">Acesse o Blog CONEXÃO ESCOLAR</h1>
+    <p class="text-lg text-gray-700 dark:text-gray-300 mb-6">Um espaço para compartilhar conhecimento, ideias e experiências entre estudantes e professores.</p>
+
+    <div class="flex flex-col md:flex-row gap-4">
+      <a href="/blog/login" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded font-bold">Fazer login</a>
+      <a href="/blog/register" class="border border-blue-600 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900 px-6 py-3 rounded font-bold">Criar uma conta</a>
+    </div>
+
+    <div class="mt-12 max-w-3xl text-left">
+      <h2 class="text-2xl font-semibold mb-2">O que é o Blog?</h2>
+      <p class="text-gray-700 dark:text-gray-300 mb-4">O Blog Conexão Escolar é uma plataforma para publicação de artigos, comentários e interação entre a comunidade escolar. Ele permite:</p>
+      <ul class="list-disc list-inside text-gray-700 dark:text-gray-300">
+        <li>Postar conteúdos educacionais e reflexivos</li>
+        <li>Comentar e curtir publicações de colegas</li>
+        <li>Promover o aprendizado colaborativo</li>
+        <li>Desenvolver habilidades de escrita e argumentação</li>
+      </ul>
+      
+      <p class="text-gray-700 dark:text-gray-300 mb-2 mt-10">Além disso, o blog funciona como uma verdadeira central de conteúdos educativos, oferecendo um espaço acessível onde:</p>
+      <ul class="list-disc list-inside text-gray-700 dark:text-gray-300 mb-4">
+        <li>Estudantes podem expressar suas opiniões sobre temas escolares e sociais</li>
+        <li>Professores compartilham dicas, projetos e metodologias de ensino</li>
+        <li>Pais e responsáveis acompanham discussões relevantes da comunidade escolar</li>
+        <li>Qualquer pessoa interessada em educação pode contribuir com ideias e reflexões</li>
+      </ul>
+      <p class="text-gray-700 dark:text-gray-300 mt-10">Participar do Blog Conexão Escolar é fazer parte de um ambiente que valoriza o conhecimento coletivo, o diálogo respeitoso e o crescimento pessoal e acadêmico de todos os envolvidos.</p>
+    </div>
+
+    <div class="mt-20">
+      <img src="/sala_de_aula.jpg" alt="Sala de aula repleto de alunos" class="w-full h-full md:h-110 object-cover object-center">
+    </div>
+  </section>
+</Layout>
