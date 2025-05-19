@@ -12,5 +12,18 @@
     "@tailwindcss/vite": "^4.1.4",
     "astro": "^5.7.5",
     "tailwindcss": "^4.1.4"
-  }
+  },
+  "description": "**Conexão Escolas** é uma plataforma web educativa desenvolvida com o objetivo de informar, conscientizar e promover o debate sobre os desafios da educação básica no Brasil. A aplicação reúne conteúdos relevantes sobre temas como evasão escolar, impactos do uso de celulares em sala de aula, políticas públicas educacionais, experiências globais e dados atualizados sobre crianças fora da escola.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lpaifer/Conexao-Escolar.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lpaifer/Conexao-Escolar/issues"
+  },
+  "homepage": "https://github.com/Lpaifer/Conexao-Escolar#readme"
 }
