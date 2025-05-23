@@ -1,48 +1,86 @@
 ---
 import Header from '../../components/Header.astro';
 import Layout from '../../layouts/Layout.astro';
-const post = { titulo: 'Post Exemplo', conteudo: 'Conteúdo completo do post...', autor: 'Maria' };
 ---
 
 <Layout title="LOGIN | CONEXÃO ESCOLAR">
   <Header />
 
+  <script type="module" is:inline>
+    const api = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.querySelector('form');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = form.email.value.trim();
+        const senha = form.senha.value.trim();
+
+        if (!email || !senha) {
+          alert('Preencha email e senha.');
+          return;
+        }
+
+        try {
+          const res = await fetch(`${api}/api/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, senha }),
+          });
+
+          const data = await res.json();
+
+          if (res.ok) {
+            localStorage.setItem('token', data.token);
+            alert('Login realizado com sucesso!');
+            window.location.href = '/blog';
+          } else {
+            alert(data.mensagem || 'Erro ao fazer login.');
+          }
+        } catch (err) {
+          alert('Erro de conexão com o servidor.');
+        }
+      });
+    });
+  </script>
+
   <form class="max-w-sm mx-auto mt-24 bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-xl space-y-5 text-gray-900 dark:text-white">
-  <h2 class="text-2xl font-bold text-center mb-4">Entrar no Blog</h2>
+    <h2 class="text-2xl font-bold text-center mb-4">Entrar no Blog</h2>
 
-  <input
-    type="email"
-    name="email"
-    placeholder="Digite seu Email"
-    class="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-    required
-  />
+    <input
+      type="email"
+      name="email"
+      placeholder="Digite seu Email"
+      class="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      required
+    />
 
-  <input
-    type="password"
-    name="senha"
-    placeholder="Senha"
-    class="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-    required
-  />
+    <input
+      type="password"
+      name="senha"
+      placeholder="Senha"
+      class="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      required
+    />
 
-  <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-lg transition">
-    Entrar
-  </button>
+    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg text-lg transition">
+      Entrar
+    </button>
 
-  <div class="text-center">
-    <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">Esqueceu a conta?</a>
-  </div>
+    <div class="text-center">
+      <a href="#" class="text-blue-600 dark:text-blue-400 hover:underline text-sm">Esqueceu a conta?</a>
+    </div>
 
-  <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mt-2">
-    <hr class="flex-grow border-t border-gray-300 dark:border-gray-600" />
-    <span>ou</span>
-    <hr class="flex-grow border-t border-gray-300 dark:border-gray-600" />
-  </div>
+    <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mt-2">
+      <hr class="flex-grow border-t border-gray-300 dark:border-gray-600" />
+      <span>ou</span>
+      <hr class="flex-grow border-t border-gray-300 dark:border-gray-600" />
+    </div>
 
-  <button type="button" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg text-lg transition">
-  <a href="/blog/register">Criar nova conta</a>
-  </button>
-</form>
-
+    <a href="/blog/register" class="block text-center w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg text-lg transition no-underline">
+      Criar nova conta
+    </a>
+  </form>
 </Layout>
