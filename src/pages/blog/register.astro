@@ -10,7 +10,7 @@ const api = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
   <Header />
 
   <script type="module" is:inline>
-    const api = "{api}";
+    const api = {JSON.stringify(api)};
     console.log("API URL:", api);
 
     document.addEventListener('DOMContentLoaded', () => {
