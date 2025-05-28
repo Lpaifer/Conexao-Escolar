@@ -2,7 +2,6 @@
 import Header from '../../components/Header.astro';
 import Layout from '../../layouts/Layout.astro';
 
-// Correto: captura do .env no lado servidor
 const api = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
 ---
 
@@ -10,7 +9,7 @@ const api = import.meta.env.PUBLIC_API_URL || 'http://localhost:3000';
   <Header />
 
   <script type="module" is:inline>
-    const api = {JSON.stringify(api)};
+    const api = "{api}";
     console.log("API LOGIN:", api);
 
     document.addEventListener('DOMContentLoaded', () => {
